@@ -19,7 +19,11 @@
     thread_image:"",
     contact_heading_1:"Have something", contact_heading_2:"made for you.",
     contact_text:"Tell me what you have in mind: a portrait of someone you love, a name carved in graphite, a gift no one else will have.",
-    email:"", whatsapp:"", instagram:""
+    email:"", whatsapp:"", instagram:"",
+    about_photo:"",
+    about_bio:"Yuvraj Singh Nain is a New Delhi based artist working in two disciplines that ask for the same patience: microsculptures carved into the graphite tips of pencils, and portraits built from thread wound across hundreds of nails.\n\nHis work holds three records registered with the India Book of Records, has been shared by celebrities on their Instagram profiles, and has been commissioned by collectors in India and abroad, with more than 50 international orders delivered.\n\nEvery piece is made by hand, one at a time.",
+    milestones:[],
+    featured_in:[]
   };
   const CAT = {
     thread:{label:'Thread portrait', plural:'Thread portraits', page:'thread.html', medium:'Thread and nails on board'},
@@ -242,7 +246,8 @@
   /* ---------- pages ---------- */
   function home(works, isExample){
     const grid = $('#grid'); if (!grid) return;
-    fillGrid(grid, works.slice(0, 8));
+    const picked = works.filter(w => w.featured === true || w.featured === 'true');
+    fillGrid(grid, picked.length ? picked : works.slice(0, 8));
     $('#empty-note').hidden = !isExample;
   }
 
@@ -373,6 +378,34 @@
     addEventListener('hashchange', render);
   }
 
+  function about(s){
+    const bio = $('#bio');
+    const paras = (s.about_bio || DEFAULT_SITE.about_bio).split(/\n\s*\n/).map(t => t.trim()).filter(Boolean);
+    bio.innerHTML = ''; paras.forEach(t => { const p = document.createElement('p'); p.textContent = t; bio.appendChild(p); });
+
+    const fig = $('#about-photo');
+    if (src(s.about_photo) && !fig.classList.contains('has-photo')){
+      const img = new Image(); img.src = src(s.about_photo); img.alt = 'Yuvraj Singh Nain'; img.decoding = 'async';
+      const old = fig.querySelector('canvas'); if (old) old.replaceWith(img);
+      fig.classList.add('has-photo');
+    }
+
+    const ms = (s.milestones || []).filter(m => m && (m.year || m.text));
+    const tl = $('#timeline'); tl.innerHTML = '';
+    ms.forEach(m => {
+      const li = document.createElement('li');
+      const y = document.createElement('span'); y.className = 'yr'; y.textContent = m.year || '';
+      const t = document.createElement('p'); t.textContent = m.text || '';
+      li.append(y, t); tl.appendChild(li);
+    });
+    $('#journey').hidden = !ms.length;
+
+    const fe = (s.featured_in || []).filter(f => typeof f === 'string' ? f.trim() : f && f.name);
+    const fl = $('#featured-list'); fl.innerHTML = '';
+    fe.forEach(f => { const li = document.createElement('li'); li.textContent = typeof f === 'string' ? f : f.name; fl.appendChild(li); });
+    $('#featured').hidden = !fe.length;
+  }
+
   function zoom(photo, kind){
     const z = document.createElement('div'); z.className = 'zoom'; z.setAttribute('role','dialog'); z.setAttribute('aria-modal','true'); z.setAttribute('aria-label','Photo');
     const close = document.createElement('button'); close.type = 'button'; close.textContent = 'Close';
@@ -397,6 +430,7 @@
     if (PAGE === 'home') home(works, isExample);
     if (PAGE === 'category') category(works, isExample);
     if (PAGE === 'artwork') artwork(works, s);
+    if (PAGE === 'about') about(s);
   });
 
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { drawLoom(); $$('canvas[data-kind]').forEach(paint); }, 200); });
