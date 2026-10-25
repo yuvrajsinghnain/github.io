@@ -20,5 +20,18 @@
     "details": "A name, sculpted in the tiniest details",
     "medium": "Graphite",
     "description": "Turn your name into a miniature masterpiece. Each custom name is meticulously hand-carved onto the tip of a pencil, transforming an ordinary pencil into an extraordinary work of art. Every tiny detail is crafted with precision, patience, and artistic passion, making it a truly unique keepsake or a thoughtful personalized gift."
+  },
+  {
+    "title": "Entangled Hearts",
+    "category": "pencil",
+    "price": "INR 15000",
+    "status": "available",
+    "image": "/images/1635743722266.jpg",
+    "gallery": [
+      "/images/1635743722457.jpg"
+    ],
+    "details": "Two hearts, intricately intertwined",
+    "medium": "Pencil tip",
+    "description": "Two hearts delicately carved into a pencil tip, symbolizing love, connection, and two souls intertwined as one. A miniature masterpiece crafted with extraordinary precision, capturing an everlasting bond in the tiniest details."
   }
 ]
