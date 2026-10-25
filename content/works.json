@@ -70,7 +70,7 @@
     "category": "pencil",
     "price": "INR 12000",
     "status": "sold",
-    "featured": false,
+    "featured": true,
     "image": "/images/20210902_093153.jpg",
     "gallery": [
       "/images/20210902_093156.jpg"
