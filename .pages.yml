@@ -36,9 +36,9 @@ content:
               label: Available
             - name: sold
               label: Sold
-      - name: featured
-        label: Show in Selected works on the home page
-        type: boolean
+      - name: featured_position
+        label: Position in Selected works (1 = first, 2 = second... leave empty to not show on home page)
+        type: number
       - name: image
         label: Main photo (shown in the gallery)
         type: image
