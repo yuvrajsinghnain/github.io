@@ -17,6 +17,10 @@
     "price": "Price on request",
     "status": "available",
     "image": "/images/1630150266647.jpg",
+    "gallery": [
+      "/images/20210915_110436.jpg",
+      "/images/IMG_20211001_175448_410.jpg"
+    ],
     "details": "A name, sculpted in the tiniest details",
     "medium": "Graphite",
     "description": "Turn your name into a miniature masterpiece. Each custom name is meticulously hand-carved onto the tip of a pencil, transforming an ordinary pencil into an extraordinary work of art. Every tiny detail is crafted with precision, patience, and artistic passion, making it a truly unique keepsake or a thoughtful personalized gift."
