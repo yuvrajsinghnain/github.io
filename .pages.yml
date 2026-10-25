@@ -20,19 +20,34 @@ content:
         required: true
         options:
           values:
-            - name: pencil
-              label: Microsculpture (pencil tip)
             - name: thread
               label: Thread portrait
+            - name: pencil
+              label: Microsculpture (pencil tip)
       - name: image
-        label: Photo
+        label: Main photo (shown in the gallery)
         type: image
         required: true
+      - name: gallery
+        label: More photos (close-ups, other angles)
+        type: image
+        options:
+          multiple:
+            max: 12
       - name: details
-        label: Details (size, year)
+        label: Short caption (shown under the photo in the gallery)
+        type: string
+      - name: medium
+        label: Medium (e.g. Black thread on white board)
+        type: string
+      - name: size
+        label: Size (e.g. 60 x 60 cm)
+        type: string
+      - name: year
+        label: Year
         type: string
       - name: description
-        label: Description (shown when a visitor opens the artwork)
+        label: Description (shown on the artwork page)
         type: text
 
   - name: site
