@@ -178,6 +178,25 @@
       recs.forEach(r => { const li = document.createElement('li'); li.textContent = r; rl.appendChild(li); });
       $('#records').hidden = !recs.length;
     }
+    // looping videos take priority; the photo (if any) is used as the still frame while the video loads
+    [['#loom-wrap', s.hero_video, ''], ['#micro-plate', s.micro_video, s.micro_image], ['#thread-plate', s.thread_video, s.thread_image]].forEach(([sel, vid, poster]) => {
+      const fig = $(sel); if (!fig || !src(vid) || fig.classList.contains('has-video')) return;
+      fig.querySelectorAll('canvas,img').forEach(n => n.remove());
+      if (sel === '#loom-wrap') cancelAnimationFrame(loomTimer);
+      const v = document.createElement('video');
+      v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
+      v.setAttribute('muted',''); v.setAttribute('playsinline',''); v.setAttribute('aria-hidden','true');
+      if (src(poster)) v.poster = src(poster);
+      v.src = src(vid);
+      fig.prepend(v); fig.classList.add('has-video','has-photo');
+      if (!reduce){
+        v.autoplay = true; v.setAttribute('autoplay','');
+        const tryPlay = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+        if ('IntersectionObserver' in window){
+          new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? tryPlay() : v.pause()), {threshold:.15}).observe(fig);
+        } else tryPlay();
+      }
+    });
     [['#micro-plate', s.micro_image, 'Microsculpture by Yuvraj Singh Nain'], ['#thread-plate', s.thread_image, 'Thread portrait by Yuvraj Singh Nain']].forEach(([sel, im, alt]) => {
       const fig = $(sel); if (!fig || !im || fig.classList.contains('has-photo')) return;
       const img = new Image(); img.src = src(im); img.alt = alt; img.decoding = 'async';
@@ -189,7 +208,9 @@
 
   let CONTACT = {};
   function contactLinks(s, about){
-    const email = (s.email||'').trim(), wa = (s.whatsapp||'').replace(/[^\d]/g,''), ig = (s.instagram||'').trim();
+    const email = (s.email||'').trim(), ig = (s.instagram||'').trim();
+    let wa = (s.whatsapp||'').replace(/[^\d]/g,'').replace(/^0+/, '');
+    if (wa.length === 10) wa = '91' + wa;   // 10-digit Indian mobile without country code
     CONTACT = {email, wa, ig};
     const subject = about ? 'Enquiry: ' + about : 'Custom artwork enquiry';
     const msg = about ? 'Hello Yuvraj, I am interested in "' + about + '" and would like to commission something similar.' : 'Hello Yuvraj, I would like to commission an artwork.';
