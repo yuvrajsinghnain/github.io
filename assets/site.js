@@ -230,6 +230,7 @@
     const frame = document.createElement('div'); frame.className = 'frame';
     frame.appendChild(photoEl(w.photos[0], w.category, w.title, 1.25, true));
     if (w.photos.length > 1){ const c = document.createElement('span'); c.className = 'count'; c.textContent = w.photos.length + ' photos'; frame.appendChild(c); }
+    if (w.status === 'sold'){ const b = document.createElement('span'); b.className = 'sold-tag'; b.textContent = 'Sold'; frame.appendChild(b); }
     const cap = document.createElement('div'); cap.className = 'cap';
     const t = document.createElement('span'); t.className = 't'; t.textContent = w.title || CAT[w.category].label;
     const m = document.createElement('span'); m.className = 'm'; m.textContent = w.caption || CAT[w.category].label;
@@ -288,6 +289,7 @@
               <p class="eyebrow"><b>${w.category === 'thread' ? 'I' : 'II'}</b> &nbsp;${c.label}</p>
               <h1 id="a-title"></h1>
               <p class="caption" id="a-caption"></p>
+              <div class="buy" id="a-buy"></div>
               <dl class="spec" id="a-spec"></dl>
               <p class="desc" id="a-desc"></p>
               <div class="ctas" id="a-ctas"></div>
@@ -299,6 +301,12 @@
 
       sec.querySelector('#a-title').textContent = w.title || c.label;
       const capEl = sec.querySelector('#a-caption'); capEl.textContent = w.caption || ''; capEl.hidden = !w.caption;
+      const buy = sec.querySelector('#a-buy');
+      const price = (w.price || '').toString().trim();
+      const status = w.status === 'sold' ? 'sold' : (w.status === 'available' ? 'available' : '');
+      if (price){ const pe = document.createElement('span'); pe.className = 'price'; pe.textContent = price; buy.appendChild(pe); }
+      if (status){ const st = document.createElement('span'); st.className = 'status ' + status; st.textContent = status === 'sold' ? 'Sold' : 'Available'; buy.appendChild(st); }
+      buy.hidden = !price && !status;
       const spec = sec.querySelector('#a-spec');
       [['Medium', w.medium || c.medium], ['Size', w.size], ['Year', w.year]].forEach(([k, v]) => {
         if (!v) return; const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; spec.append(dt, dd);
@@ -308,8 +316,11 @@
       // commission buttons for this piece
       const ctas = sec.querySelector('#a-ctas');
       const about = w.title || c.label;
-      const msg = 'Hello Yuvraj, I am interested in "' + about + '" and would like to commission something similar.';
-      if (CONTACT.wa){ const a = document.createElement('a'); a.className = 'btn'; a.target = '_blank'; a.rel = 'noopener'; a.href = 'https://wa.me/' + CONTACT.wa + '?text=' + encodeURIComponent(msg); a.textContent = 'Enquire on WhatsApp'; ctas.appendChild(a); }
+      const forSale = status === 'available';
+      const msg = forSale
+        ? 'Hello Yuvraj, I would like to buy "' + about + '"' + (price ? ' (' + price + ')' : '') + '. Is it still available?'
+        : 'Hello Yuvraj, I am interested in "' + about + '" and would like to commission something similar.';
+      if (CONTACT.wa){ const a = document.createElement('a'); a.className = 'btn'; a.target = '_blank'; a.rel = 'noopener'; a.href = 'https://wa.me/' + CONTACT.wa + '?text=' + encodeURIComponent(msg); a.textContent = forSale ? 'Buy on WhatsApp' : (status === 'sold' ? 'Commission a similar piece' : 'Enquire on WhatsApp'); ctas.appendChild(a); }
       if (CONTACT.email){ const a = document.createElement('a'); a.className = CONTACT.wa ? 'btn ghost' : 'btn'; a.href = 'mailto:' + CONTACT.email + '?subject=' + encodeURIComponent('Enquiry: ' + about) + '&body=' + encodeURIComponent(msg); a.textContent = 'Enquire by email'; ctas.appendChild(a); }
       if (!CONTACT.wa && !CONTACT.email){ const a = document.createElement('a'); a.className = 'btn'; a.href = '#contact'; a.textContent = 'Commission a similar piece'; ctas.appendChild(a); }
 

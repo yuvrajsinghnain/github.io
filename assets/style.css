@@ -8,6 +8,8 @@
   --brass:#B99B67;       /* antique gold */
   --brass-dim:#857150;
   --on-gold:#141413;
+  --ok:#8FB08A;          /* available */
+  --sold:#D08A7E;        /* sold */
   --display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
   --body:"Jost", "Futura", "Century Gothic", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -21,7 +23,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-
 img{max-width:100%}
 [hidden]{display:none!important}
 /* gallery-white rooms */
-.ivory{--bg:#F4F3EF;--surface:#EBE9E3;--line:#D9D5CC;--fg:#151412;--muted:#4A4640;--brass:#86703F;--brass-dim:#A08A62;--on-gold:#FAF9F6;background:var(--bg);color:var(--fg)}
+.ivory{--bg:#F4F3EF;--surface:#EBE9E3;--line:#D9D5CC;--fg:#151412;--muted:#4A4640;--brass:#86703F;--brass-dim:#A08A62;--on-gold:#FAF9F6;--ok:#3F6B3A;--sold:#9A3B2E;background:var(--bg);color:var(--fg)}
 .ivory p,.ivory dd{font-weight:400}
 .ivory h2{font-weight:500}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
@@ -138,9 +140,10 @@ header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;backgroun
 .art-crumbs{margin-bottom:var(--s3)}
 .art-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:var(--s5);align-items:start}
 .art-media{display:grid;gap:var(--s2);min-width:0}
-.art-main{position:relative;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;min-height:320px;max-height:82vh;aspect-ratio:4/5;overflow:hidden;cursor:zoom-in;padding:0;width:100%}
-.art-main img{width:100%;height:100%;object-fit:contain;display:block}
-.art-main canvas{width:100%;height:100%;display:block}
+/* the frame keeps a fixed shape; the photo is fitted inside it whole, never cropped */
+.art-main{position:relative;display:block;background:var(--surface);border:1px solid var(--line);width:100%;aspect-ratio:4/5;max-height:82vh;overflow:hidden;cursor:zoom-in;padding:0}
+.art-main img,.art-main canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.art-main .arrow{z-index:1}
 .art-main .arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;display:grid;place-items:center;background:color-mix(in srgb,var(--bg) 75%,transparent);color:var(--fg);border:1px solid var(--line);cursor:pointer;font-size:1.1rem;font-family:var(--body)}
 .art-main .arrow.prev{left:.75rem}.art-main .arrow.next{right:.75rem}
 .art-main .arrow:hover{color:var(--brass);border-color:var(--brass)}
@@ -152,6 +155,13 @@ header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;backgroun
 .art-info{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px);display:grid;gap:var(--s3);min-width:0}
 .art-info h1{font-size:clamp(2.4rem,4.6vw,4rem);line-height:1.02;overflow-wrap:anywhere}
 .art-info .caption{color:var(--muted);font-size:1.05rem}
+.buy{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s1) var(--s3)}
+.price{font-family:var(--display);font-size:clamp(1.7rem,3vw,2.2rem);line-height:1;font-variant-numeric:lining-nums}
+.status{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;padding:.4rem .75rem;border:1px solid currentColor}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.status.available{color:var(--ok)}
+.status.sold{color:var(--sold)}
+.sold-tag{position:absolute;top:.6rem;left:.6rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.25rem .55rem;background:var(--fg);color:var(--bg)}
 .art-info .desc{color:var(--muted);max-width:52ch;white-space:pre-line}
 .art-info .spec{max-width:none}
 .art-pager{display:flex;justify-content:space-between;gap:var(--s2);padding-top:var(--s3);border-top:1px solid var(--line)}
