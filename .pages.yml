@@ -24,6 +24,18 @@ content:
               label: Thread portrait
             - name: pencil
               label: Microsculpture (pencil tip)
+      - name: price
+        label: Price (e.g. ₹25,000 or Price on request)
+        type: string
+      - name: status
+        label: Availability
+        type: select
+        options:
+          values:
+            - name: available
+              label: Available
+            - name: sold
+              label: Sold
       - name: image
         label: Main photo (shown in the gallery)
         type: image
