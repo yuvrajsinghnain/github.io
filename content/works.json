@@ -33,5 +33,14 @@
     "details": "Two hearts, intricately intertwined",
     "medium": "Pencil tip",
     "description": "Two hearts delicately carved into a pencil tip, symbolizing love, connection, and two souls intertwined as one. A miniature masterpiece crafted with extraordinary precision, capturing an everlasting bond in the tiniest details."
+  },
+  {
+    "title": "Art Within a Pencil",
+    "category": "pencil",
+    "price": "INR 15000",
+    "status": "sold",
+    "image": "/images/20220115_17113800.jpg",
+    "details": "An entire world of art, hidden within a pencil.",
+    "description": "A remarkable miniature sculpture carved inside the delicate core of a pencil, transforming an everyday object into an extraordinary work of art. Crafted with incredible precision, patience, and attention to detail, this tiny masterpiece showcases the limitless possibilities of creativity in the smallest spaces."
   }
 ]
