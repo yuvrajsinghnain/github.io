@@ -68,6 +68,11 @@ content:
       - name: intro
         label: Introduction paragraph
         type: text
+      - name: hero_video
+        label: Home page top video (MP4, loops, no sound)
+        type: file
+        options:
+          extensions: [mp4, webm, mov]
       - name: honours
         label: Achievements strip (number + text)
         type: object
@@ -92,6 +97,11 @@ content:
       - name: micro_image
         label: Microsculpture section photo
         type: image
+      - name: micro_video
+        label: Microsculpture section video (MP4, loops)
+        type: file
+        options:
+          extensions: [mp4, webm, mov]
       - name: thread_heading
         label: Thread portrait section heading
         type: string
@@ -101,6 +111,11 @@ content:
       - name: thread_image
         label: Thread portrait section photo
         type: image
+      - name: thread_video
+        label: Thread portrait section video (MP4, loops)
+        type: file
+        options:
+          extensions: [mp4, webm, mov]
       - name: contact_heading_1
         label: Contact heading, first part
         type: string
