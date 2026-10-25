@@ -59,5 +59,17 @@
     "image": "/images/20220218_140449(0).jpg",
     "details": "Ten thousand, carved into the tiniest detail.",
     "description": "A miniature masterpiece featuring “10K” meticulously carved onto the tip of a pencil. This intricate sculpture transforms a tiny graphite tip into a symbol of achievement, crafted with extraordinary precision, patience, and artistic finesse. A celebration of big milestones expressed through the smallest details."
+  },
+  {
+    "title": "Sakha — ਸਾਖਾ",
+    "category": "pencil",
+    "price": "INR 12000",
+    "status": "sold",
+    "image": "/images/20210902_093153.jpg",
+    "gallery": [
+      "/images/20210902_093156.jpg"
+    ],
+    "details": "A name rooted in culture, carved in miniature.",
+    "description": "The Punjabi word “ਸਾਖਾ” (Sakha), intricately carved onto the tip of a pencil, celebrating the beauty of Punjabi script through miniature art. Every delicate stroke is crafted with remarkable precision and patience, transforming a tiny pencil tip into a unique expression of cultural identity and artistic mastery."
   }
 ]
