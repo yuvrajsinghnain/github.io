@@ -170,6 +170,7 @@
       hon.forEach(h => {
         const d = document.createElement('div'); d.className = 'honour';
         const n = document.createElement('span'); n.className = 'n' + (/\d/.test(h.number||'') ? '' : ' word'); n.textContent = h.number || '';
+        countUp(n);
         const p = document.createElement('p'); p.textContent = h.text || '';
         d.append(n, p); hw.appendChild(d);
       });
@@ -210,6 +211,28 @@
     contactLinks(s);
   }
 
+  /* Count the achievement numbers up from 0 when they scroll into view. The final value is shown until then. */
+  function countUp(el){
+    const m = (el.textContent || '').match(/^(\D*)(\d[\d,]*)(.*)$/);
+    if (!m || reduce || !('IntersectionObserver' in window)) return;
+    const [, pre, num, post] = m, target = parseInt(num.replace(/,/g,''), 10), commas = num.includes(',');
+    if (!target) return;
+    const fmt = v => pre + (commas ? v.toLocaleString('en-IN') : String(v)) + post;
+    el.style.fontVariantNumeric = 'tabular-nums lining-nums';
+    const io = new IntersectionObserver(es => {
+      if (!es.some(e => e.isIntersecting)) return;
+      io.disconnect();
+      const dur = 1600 + Math.min(target, 1000) * 0.4, t0 = performance.now();
+      const tick = now => {
+        const k = Math.min(1, (now - t0) / dur), eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = fmt(Math.round(target * eased));
+        if (k < 1) requestAnimationFrame(tick); else el.textContent = fmt(target);
+      };
+      el.textContent = fmt(0); requestAnimationFrame(tick);
+    }, {threshold: .6});
+    io.observe(el);
+  }
+
   let CONTACT = {};
   function contactLinks(s, about){
     const email = (s.email||'').trim(), ig = (s.instagram||'').trim();
@@ -246,7 +269,12 @@
   /* ---------- pages ---------- */
   function home(works, isExample){
     const grid = $('#grid'); if (!grid) return;
-    const picked = works.filter(w => w.featured === true || w.featured === 'true');
+    // Selected works: pieces with a position number, in that order (1 first); ticked pieces without a number follow.
+    const pos = w => { const v = parseFloat(w.featured_position); return isFinite(v) && v > 0 ? v : null; };
+    const picked = works
+      .filter(w => pos(w) !== null || w.featured === true || w.featured === 'true')
+      .map((w, i) => ({w, k: pos(w) ?? 1e6 + i}))
+      .sort((a, b) => a.k - b.k).map(x => x.w);
     fillGrid(grid, picked.length ? picked : works.slice(0, 8));
     $('#empty-note').hidden = !isExample;
   }
