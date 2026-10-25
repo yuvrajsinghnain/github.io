@@ -1,0 +1,106 @@
+media:
+  input: images
+  output: /images
+
+content:
+  - name: works
+    label: Artworks
+    type: file
+    path: content/works.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: category
+        label: Type of artwork
+        type: select
+        required: true
+        options:
+          values:
+            - name: pencil
+              label: Microsculpture (pencil tip)
+            - name: thread
+              label: Thread portrait
+      - name: image
+        label: Photo
+        type: image
+        required: true
+      - name: details
+        label: Details (size, year)
+        type: string
+      - name: description
+        label: Description (shown when a visitor opens the artwork)
+        type: text
+
+  - name: site
+    label: Site settings
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - name: tagline
+        label: Small line above the main heading
+        type: string
+      - name: heading_line1
+        label: Main heading, line 1
+        type: string
+      - name: heading_line2
+        label: Main heading, line 2 (gold italic)
+        type: string
+      - name: intro
+        label: Introduction paragraph
+        type: text
+      - name: honours
+        label: Achievements strip (number + text)
+        type: object
+        list: true
+        fields:
+          - name: number
+            label: Big number or word (e.g. 3, 50+)
+            type: string
+          - name: text
+            label: Text under it
+            type: string
+      - name: records
+        label: India Book of Records titles
+        type: string
+        list: true
+      - name: micro_heading
+        label: Microsculpture section heading
+        type: string
+      - name: micro_text
+        label: Microsculpture section text
+        type: text
+      - name: micro_image
+        label: Microsculpture section photo
+        type: image
+      - name: thread_heading
+        label: Thread portrait section heading
+        type: string
+      - name: thread_text
+        label: Thread portrait section text
+        type: text
+      - name: thread_image
+        label: Thread portrait section photo
+        type: image
+      - name: contact_heading_1
+        label: Contact heading, first part
+        type: string
+      - name: contact_heading_2
+        label: Contact heading, second part (gold italic)
+        type: string
+      - name: contact_text
+        label: Contact paragraph
+        type: text
+      - name: email
+        label: Email address for the Contact button
+        type: string
+      - name: whatsapp
+        label: WhatsApp number with country code (e.g. 919876543210)
+        type: string
+      - name: instagram
+        label: Instagram username or link
+        type: string
