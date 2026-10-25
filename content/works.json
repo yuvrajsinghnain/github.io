@@ -2,8 +2,13 @@
   {
     "title": "Watch carved on pencil tip",
     "category": "pencil",
+    "price": "25000",
+    "status": "sold",
     "image": "/images/1630150190570.jpg",
     "details": "5mm, 2024",
+    "medium": "Graphite ",
+    "size": "10 x 5 mm",
+    "year": "2024",
     "description": "watch carved on pencil tip"
   }
 ]
