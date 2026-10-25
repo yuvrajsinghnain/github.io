@@ -50,5 +50,14 @@
     ],
     "details": "An entire world of art, hidden within a pencil.",
     "description": "A remarkable miniature sculpture carved inside the delicate core of a pencil, transforming an everyday object into an extraordinary work of art. Crafted with incredible precision, patience, and attention to detail, this tiny masterpiece showcases the limitless possibilities of creativity in the smallest spaces."
+  },
+  {
+    "title": "10K — A Milestone in Miniature",
+    "category": "pencil",
+    "price": "INR 25000",
+    "status": "sold",
+    "image": "/images/20220218_140449(0).jpg",
+    "details": "Ten thousand, carved into the tiniest detail.",
+    "description": "A miniature masterpiece featuring “10K” meticulously carved onto the tip of a pencil. This intricate sculpture transforms a tiny graphite tip into a symbol of achievement, crafted with extraordinary precision, patience, and artistic finesse. A celebration of big milestones expressed through the smallest details."
   }
 ]
