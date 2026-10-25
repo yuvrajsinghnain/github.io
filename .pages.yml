@@ -36,6 +36,9 @@ content:
               label: Available
             - name: sold
               label: Sold
+      - name: featured
+        label: Show in Selected works on the home page
+        type: boolean
       - name: image
         label: Main photo (shown in the gallery)
         type: image
@@ -146,3 +149,24 @@ content:
       - name: instagram
         label: Instagram username or link
         type: string
+      - name: about_photo
+        label: About page, your portrait photo (4x5)
+        type: image
+      - name: about_bio
+        label: About page, your story (leave an empty line between paragraphs)
+        type: text
+      - name: milestones
+        label: About page, milestones
+        type: object
+        list: true
+        fields:
+          - name: year
+            label: Year
+            type: string
+          - name: text
+            label: What happened
+            type: string
+      - name: featured_in
+        label: About page, featured or shared by (names)
+        type: string
+        list: true
