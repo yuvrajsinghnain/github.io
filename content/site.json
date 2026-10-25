@@ -1,24 +1,30 @@
 {
   "tagline": "New Delhi, India · Microsculptor & thread artist",
-  "heading_line1": "Carved in graphite.",
-  "heading_line2": "Drawn in thread.",
+  "heading_line1": "Carved on Pencil Tip.",
+  "heading_line2": "Pixelated in threads.",
   "intro": "Yuvraj Singh Nain sculpts miniature forms into the tips of pencils and builds portraits from thread wound across nails. Each piece is made by hand, one at a time, for collectors around the world.",
   "honours": [
-    { "number": "3", "text": "Records registered with the India Book of Records" },
-    { "number": "50+", "text": "International commissions delivered to collectors abroad" },
-    { "number": "Shared", "text": "by celebrities on their Instagram profiles" }
+    {
+      "number": "3",
+      "text": "Records registered with the India Book of Records"
+    },
+    {
+      "number": "50+",
+      "text": "International commissions delivered to collectors abroad"
+    },
+    {
+      "number": "50+",
+      "text": "celebrities shared on their Instagram profiles"
+    }
   ],
-  "records": [],
   "micro_heading": "A sculpture smaller than a grain of rice.",
   "micro_text": "Working under magnification, Yuvraj carves letters, figures and symbols directly into the graphite tip of an ordinary pencil. The material is brittle and forgives nothing: one slip and the work is lost.",
-  "micro_image": "",
   "thread_heading": "Faces that appear from thousands of lines.",
   "thread_text": "Hundreds of nails are set into a board, then thread is wound from nail to nail, line over line, until a likeness emerges. Up close it is pure geometry; step back and a person looks out at you.",
-  "thread_image": "",
   "contact_heading_1": "Have something",
   "contact_heading_2": "made for you.",
   "contact_text": "Tell me what you have in mind: a portrait of someone you love, a name carved in graphite, a gift no one else will have.",
-  "email": "",
-  "whatsapp": "",
-  "instagram": ""
+  "email": "yuvrajnain31@gmail.com",
+  "whatsapp": "9310718159",
+  "instagram": "instagram.com/pixelsbythread"
 }
