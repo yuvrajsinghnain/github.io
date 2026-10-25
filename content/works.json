@@ -4,6 +4,7 @@
     "category": "pencil",
     "price": " INR 25000",
     "status": "sold",
+    "featured": true,
     "image": "/images/1630150190570.jpg",
     "details": "5mm, 2024",
     "medium": "Graphite ",
@@ -16,6 +17,7 @@
     "category": "pencil",
     "price": "Price on request",
     "status": "available",
+    "featured": true,
     "image": "/images/20230616_121314-1.jpg",
     "gallery": [
       "/images/Screenshot_20210805-220622_Instagram.jpg",
@@ -31,6 +33,7 @@
     "category": "pencil",
     "price": "INR 15000",
     "status": "available",
+    "featured": true,
     "image": "/images/1635743722266.jpg",
     "gallery": [
       "/images/1635743722457.jpg"
@@ -44,6 +47,7 @@
     "category": "pencil",
     "price": "INR 15000",
     "status": "sold",
+    "featured": true,
     "image": "/images/20220115_17113800.jpg",
     "gallery": [
       "/images/1636024265637-1.jpg"
@@ -56,6 +60,7 @@
     "category": "pencil",
     "price": "INR 25000",
     "status": "sold",
+    "featured": false,
     "image": "/images/20220218_140449(0).jpg",
     "details": "Ten thousand, carved into the tiniest detail.",
     "description": "A miniature masterpiece featuring “10K” meticulously carved onto the tip of a pencil. This intricate sculpture transforms a tiny graphite tip into a symbol of achievement, crafted with extraordinary precision, patience, and artistic finesse. A celebration of big milestones expressed through the smallest details."
@@ -65,6 +70,7 @@
     "category": "pencil",
     "price": "INR 12000",
     "status": "sold",
+    "featured": false,
     "image": "/images/20210902_093153.jpg",
     "gallery": [
       "/images/20210902_093156.jpg"
@@ -76,6 +82,7 @@
     "title": "Shri Raj Babbar Ji — Portrait in Thread",
     "category": "thread",
     "status": "sold",
+    "featured": true,
     "image": "/images/WhatsApp Image 2026-10-26 at 01.19.59-1.jpeg",
     "gallery": [
       "/images/WhatsApp Image 2026-10-26 at 01.19.59 (1).jpeg",
@@ -90,6 +97,7 @@
     "title": "Shri Gajendra Singh Shekhawat Ji — Portrait in Thread",
     "category": "thread",
     "status": "sold",
+    "featured": true,
     "image": "/images/WhatsApp Image 2026-10-26 at 01.30.05 (2).jpeg",
     "gallery": [
       "/images/WhatsApp Image 2026-10-26 at 01.30.05.jpeg"
@@ -102,6 +110,7 @@
     "title": "Shri Dileep Sanghani Ji — Portrait in Thread",
     "category": "thread",
     "status": "sold",
+    "featured": true,
     "image": "/images/WhatsApp Image 2026-10-26 at 01.28.28 (1).jpeg",
     "gallery": [
       "/images/WhatsApp Image 2026-10-26 at 01.28.29.jpeg"
