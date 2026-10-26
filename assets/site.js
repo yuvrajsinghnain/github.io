@@ -2,6 +2,10 @@
    Content comes from content/site.json and content/works.json, which the admin panel edits. */
 (() => {
   const PAGE = document.body.dataset.page || 'home';
+  /* When the publishing step has built a separate page for every artwork, link to those pages
+     (search engines can list them). Otherwise fall back to artwork.html#name. */
+  const STATIC = document.documentElement.dataset.static === '1';
+  const workUrl = slug => STATIC ? 'artwork-' + slug + '.html' : 'artwork.html#' + slug;
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
 
@@ -260,9 +264,9 @@
   }
 
   function card(w){
-    const a = document.createElement('a'); a.className = 'work'; a.href = 'artwork.html#' + w.slug;
+    const a = document.createElement('a'); a.className = 'work'; a.href = workUrl(w.slug);
     const frame = document.createElement('div'); frame.className = 'frame';
-    frame.appendChild(photoEl(w.photos[0], w.category, w.title, 1.25, true));
+    frame.appendChild(photoEl(w.photos[0], w.category, (w.title || CAT[w.category].label) + ', ' + CAT[w.category].label.toLowerCase() + ' by Yuvraj Singh Nain', 1.25, true));
     if (w.photos.length > 1){ const c = document.createElement('span'); c.className = 'count'; c.textContent = w.photos.length + ' photos'; frame.appendChild(c); }
     if (w.status === 'sold'){ const b = document.createElement('span'); b.className = 'sold-tag'; b.textContent = 'Sold'; frame.appendChild(b); }
     const cap = document.createElement('div'); cap.className = 'cap';
@@ -306,7 +310,7 @@
   function artwork(works, site){
     const root = $('#art-root');
     function render(){
-      const slug = decodeURIComponent(location.hash.slice(1));
+      const slug = document.body.dataset.slug || decodeURIComponent(location.hash.slice(1));
       const i = works.findIndex(w => w.slug === slug);
       const w = works[i];
       if (!w){
@@ -319,7 +323,7 @@
       const sameCat = works.filter(x => x.category === w.category);
       const j = sameCat.indexOf(w);
       const prev = sameCat[(j - 1 + sameCat.length) % sameCat.length], next = sameCat[(j + 1) % sameCat.length];
-      document.title = (w.title || c.label) + ' · Yuvraj Singh Nain';
+      if (!document.body.dataset.slug) document.title = (w.title || c.label) + ' · Yuvraj Singh Nain';
 
       root.innerHTML = '';
       const sec = document.createElement('section');
@@ -374,7 +378,7 @@
       const pager = sec.querySelector('.art-pager');
       if (sameCat.length > 1){
         [[prev,'Previous'],[next,'Next']].forEach(([x,label]) => {
-          const a = document.createElement('a'); a.href = 'artwork.html#' + x.slug;
+          const a = document.createElement('a'); a.href = workUrl(x.slug);
           const e = document.createElement('span'); e.className = 'eyebrow'; e.textContent = label;
           const t = document.createElement('span'); t.className = 't'; t.textContent = x.title || c.label;
           a.append(e, t); pager.appendChild(a);
