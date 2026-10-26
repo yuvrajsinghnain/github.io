@@ -234,3 +234,20 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(-
 .featured .wrap{display:grid;gap:var(--s3)}
 .featured-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5)}
 .featured-list li{font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,2.6vw,2rem)}
+
+/* home banner photo */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero-bg{position:absolute;inset:0;z-index:-1;display:none}
+.hero.has-bg .hero-bg{display:block}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 55%;display:block;filter:grayscale(1) contrast(1.05)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg, rgba(20,20,19,.92) 0%, rgba(20,20,19,.78) 38%, rgba(20,20,19,.45) 70%, rgba(20,20,19,.35) 100%),
+  linear-gradient(0deg, rgba(20,20,19,.85) 0%, rgba(20,20,19,0) 35%)}
+.hero.has-bg{padding-block:var(--s6)}
+.hero.has-bg .lede{color:#CFCAC1}
+.hero.no-side .wrap{grid-template-columns:minmax(0,1fr)}
+.hero.no-side .hero-copy{max-width:780px}
+@media (max-width:860px){
+  .hero-bg::after{background:linear-gradient(180deg, rgba(20,20,19,.55) 0%, rgba(20,20,19,.82) 55%, rgba(20,20,19,.95) 100%)}
+  .hero.has-bg{padding-block:var(--s5)}
+}

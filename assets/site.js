@@ -183,6 +183,13 @@
       recs.forEach(r => { const li = document.createElement('li'); li.textContent = r; rl.appendChild(li); });
       $('#records').hidden = !recs.length;
     }
+    // home page banner photo behind the main heading
+    const hero = $('#hero'), bg = $('#hero-bg');
+    if (hero && bg && src(s.hero_image) && !hero.classList.contains('has-bg')){
+      const img = new Image(); img.src = src(s.hero_image); img.alt = ''; img.decoding = 'async'; img.fetchPriority = 'high';
+      bg.appendChild(img); hero.classList.add('has-bg');
+      if (!src(s.hero_video)){ hero.classList.add('no-side'); cancelAnimationFrame(loomTimer); const lw = $('#loom-wrap'); if (lw) lw.hidden = true; }
+    }
     // looping videos take priority; the photo (if any) is used as the still frame while the video loads
     [['#loom-wrap', s.hero_video, ''], ['#micro-plate', s.micro_video, s.micro_image], ['#thread-plate', s.thread_video, s.thread_image]].forEach(([sel, vid, poster]) => {
       const fig = $(sel); if (!fig || !src(vid) || fig.classList.contains('has-video')) return;
