@@ -124,6 +124,7 @@
     "category": "thread",
     "price": "INR 25000",
     "status": "available",
+    "featured_position": 4,
     "image": "/images/Modern Study with Framed Portrait.png",
     "gallery": [
       "/images/20261026_1305420.jpg"
