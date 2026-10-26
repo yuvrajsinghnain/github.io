@@ -275,7 +275,10 @@
     cap.append(t, m); a.append(frame, cap);
     return a;
   }
-  function fillGrid(grid, list){ grid.innerHTML = ''; list.forEach(w => grid.appendChild(card(w))); }
+  function fillGrid(grid, list){
+    grid.innerHTML = ''; list.forEach(w => grid.appendChild(card(w)));
+    requestAnimationFrame(() => unveil([...grid.querySelectorAll('.work .frame')], gridCols(grid)));
+  }
 
   /* ---------- pages ---------- */
   function home(works, isExample){
@@ -388,35 +391,56 @@
       // photos
       const main = sec.querySelector('#art-main'), thumbs = sec.querySelector('#thumbs');
       let cur = 0;
-      const show = k => {
+      const show = (k, dir) => {
         cur = (k + w.photos.length) % w.photos.length;
         main.querySelectorAll('img,canvas').forEach(n => n.remove());
-        main.prepend(photoEl(w.photos[cur], w.category, (w.title || c.label) + ', photo ' + (cur+1), 1.25));
+        const el = photoEl(w.photos[cur], w.category, (w.title || c.label) + ', photo ' + (cur+1), 1.25);
+        if (dir && !reduce) el.classList.add(dir > 0 ? 'in-next' : 'in-prev');
+        main.prepend(el);
         [...thumbs.children].forEach((b, n) => b.setAttribute('aria-current', String(n === cur)));
       };
       if (w.photos.length > 1){
         w.photos.forEach((p, n) => {
           const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Show photo ' + (n+1));
           b.appendChild(photoEl(p, w.category, '', 1.25, true));
-          b.addEventListener('click', () => show(n)); thumbs.appendChild(b);
+          b.addEventListener('click', () => show(n, n > cur ? 1 : n < cur ? -1 : 0)); thumbs.appendChild(b);
         });
         ['prev','next'].forEach(d => {
           const b = document.createElement('button'); b.type = 'button'; b.className = 'arrow ' + d;
           b.setAttribute('aria-label', d === 'prev' ? 'Previous photo' : 'Next photo'); b.textContent = d === 'prev' ? '←' : '→';
-          b.addEventListener('click', e => { e.stopPropagation(); show(cur + (d === 'prev' ? -1 : 1)); });
+          b.addEventListener('click', e => { e.stopPropagation(); show(cur + (d === 'prev' ? -1 : 1), d === 'prev' ? -1 : 1); });
           main.appendChild(b);
         });
       } else thumbs.hidden = true;
       show(0);
 
-      const openZoom = () => zoom(w.photos[cur], w.category);
+      // swipe left / right through the photos on phones
+      let sx = 0, sy = 0, swiped = false;
+      main.addEventListener('touchstart', e => { const t = e.touches[0]; sx = t.clientX; sy = t.clientY; swiped = false; }, {passive:true});
+      main.addEventListener('touchend', e => {
+        if (w.photos.length < 2) return;
+        const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3){ swiped = true; show(cur + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); }
+      }, {passive:true});
+
+      // magnifying loupe for microsculptures (mouse / trackpad only)
+      const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (w.category === 'pencil' && finePointer) loupe(main);
+
+      const hintText = finePointer
+        ? (w.category === 'pencil' ? 'Hover to magnify · Click to view full screen' : 'Click to view full screen')
+        : [w.photos.length > 1 ? 'Swipe for more photos' : '', 'Tap to view full screen' + (w.category === 'pencil' ? ', then pinch to zoom' : '')].filter(Boolean).join(' · ');
+      const hint = document.createElement('p'); hint.className = 'eyebrow loupe-hint'; hint.textContent = hintText;
+      sec.querySelector('.art-media').appendChild(hint);
+
+      const openZoom = () => { if (swiped){ swiped = false; return; } zoom(w.photos[cur], w.category); };
       main.addEventListener('click', openZoom);
       main.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openZoom(); } });
       document.onkeydown = e => {
         if ($('.zoom')) return;
         if (e.target.closest && e.target.closest('input,textarea')) return;
-        if (e.key === 'ArrowLeft' && w.photos.length > 1) show(cur - 1);
-        if (e.key === 'ArrowRight' && w.photos.length > 1) show(cur + 1);
+        if (e.key === 'ArrowLeft' && w.photos.length > 1) show(cur - 1, -1);
+        if (e.key === 'ArrowRight' && w.photos.length > 1) show(cur + 1, 1);
       };
       window.scrollTo(0, 0);
     }
@@ -452,6 +476,59 @@
     $('#featured').hidden = !fe.length;
   }
 
+  /* Magnifying glass that follows the mouse over the photo. */
+  function loupe(main){
+    const Z = 2.6;
+    const lens = document.createElement('div'); lens.className = 'loupe'; lens.setAttribute('aria-hidden', 'true');
+    main.appendChild(lens);
+    const off = () => { lens.classList.remove('on'); main.classList.remove('lensing'); };
+    main.addEventListener('mousemove', e => {
+      const img = main.querySelector('img');
+      if (!img || !img.naturalWidth || (e.target.closest && e.target.closest('.arrow'))) return off();
+      const r = main.getBoundingClientRect();
+      const s = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
+      const iw = img.naturalWidth * s, ih = img.naturalHeight * s, ix = (r.width - iw) / 2, iy = (r.height - ih) / 2;
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      if (x < ix || x > ix + iw || y < iy || y > iy + ih) return off();
+      const half = lens.offsetWidth / 2;
+      lens.style.left = x + 'px'; lens.style.top = y + 'px';
+      lens.style.backgroundImage = 'url("' + (img.currentSrc || img.src) + '")';
+      lens.style.backgroundSize = (iw * Z) + 'px ' + (ih * Z) + 'px';
+      lens.style.backgroundPosition = (-((x - ix) * Z - half)) + 'px ' + (-((y - iy) * Z - half)) + 'px';
+      lens.classList.add('on'); main.classList.add('lensing');
+    });
+    main.addEventListener('mouseleave', off);
+  }
+
+  /* Artworks lift into view, like a curtain rising, the first time they scroll on screen.
+     Anything already on screen when the page opens is left exactly as it is. */
+  // The observer watches each photo's parent (a fully covered photo never counts as "on screen" itself).
+  const revealFor = new WeakMap();
+  const revealIO = ('IntersectionObserver' in window && !reduce)
+    ? new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = revealFor.get(e.target); if (el) el.classList.add('revealed');
+        revealIO.unobserve(e.target);
+      }), {rootMargin: '0px 0px -6% 0px', threshold: 0.05})
+    : null;
+  function unveil(els, cols){
+    if (!revealIO) return;
+    els.forEach((el, i) => {
+      if (!el.isConnected || el.classList.contains('unveil')) return;
+      const r = el.getBoundingClientRect();
+      if (!r.height || r.top < innerHeight * 0.94) return;
+      el.style.setProperty('--d', ((i % (cols || 1)) * 110) + 'ms');
+      el.classList.add('unveil');
+      el.addEventListener('transitionend', function done(ev){
+        if (ev.target !== el || ev.propertyName !== 'clip-path') return;
+        el.classList.remove('unveil', 'revealed'); el.style.removeProperty('--d'); el.removeEventListener('transitionend', done);
+      });
+      const watch = el.parentElement || el;
+      revealFor.set(watch, el); revealIO.observe(watch);
+    });
+  }
+  const gridCols = g => Math.max(1, getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length);
+
   function zoom(photo, kind){
     const z = document.createElement('div'); z.className = 'zoom'; z.setAttribute('role','dialog'); z.setAttribute('aria-modal','true'); z.setAttribute('aria-label','Photo');
     const close = document.createElement('button'); close.type = 'button'; close.textContent = 'Close';
@@ -477,6 +554,7 @@
     if (PAGE === 'category') category(works, isExample);
     if (PAGE === 'artwork') artwork(works, s);
     if (PAGE === 'about') about(s);
+    requestAnimationFrame(() => unveil([...document.querySelectorAll('.chapter .plate, .about-photo')], 1));
   });
 
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { drawLoom(); $$('canvas[data-kind]').forEach(paint); }, 200); });

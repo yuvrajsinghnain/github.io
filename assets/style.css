@@ -273,3 +273,43 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(-
   .textlink{display:inline-block;padding-top:.7rem}
   .col-links{gap:var(--s1) var(--s3)}
 }
+
+/* ---------- motion ---------- */
+/* smooth cross-fade between pages (browsers without support simply skip it) */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.45s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+header.nav{view-transition-name:site-header}
+
+/* banner: a very slow drift, and the heading lines rise one after another */
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.08)}}
+.hero.has-bg .hero-bg img{animation:drift 26s ease-in-out infinite alternate;transform-origin:60% 55%}
+.hero h1.reveal{animation:none}
+.hero h1 > span,.hero h1 > em{display:inline-block;animation:rise 1.2s cubic-bezier(.2,.7,.2,1) both}
+.hero h1 > span{animation-delay:.12s}
+.hero h1 > em{animation-delay:.36s}
+
+/* artworks lift into view like a curtain */
+.unveil{clip-path:inset(100% 0 0 0);transition:clip-path 1.15s cubic-bezier(.7,0,.2,1) var(--d,0ms)}
+.unveil > img,.unveil > canvas,.unveil > video{transform:scale(1.12);transition:transform 1.4s cubic-bezier(.2,.7,.2,1) var(--d,0ms)}
+.unveil.revealed{clip-path:inset(0 0 0 0)}
+.unveil.revealed > img,.unveil.revealed > canvas,.unveil.revealed > video{transform:scale(1)}
+
+/* artwork page: swipe, slide-in and the magnifying loupe */
+.art-main{touch-action:pan-y}
+@keyframes inNext{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes inPrev{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+.art-main img.in-next,.art-main canvas.in-next{animation:inNext .45s cubic-bezier(.2,.7,.2,1)}
+.art-main img.in-prev,.art-main canvas.in-prev{animation:inPrev .45s cubic-bezier(.2,.7,.2,1)}
+.loupe{position:absolute;z-index:2;left:0;top:0;width:200px;height:200px;border-radius:50%;pointer-events:none;
+  background-repeat:no-repeat;background-color:var(--surface);
+  border:1px solid color-mix(in srgb,var(--brass) 75%,transparent);
+  box-shadow:0 18px 50px rgba(0,0,0,.35),inset 0 0 0 5px rgba(255,255,255,.10);
+  opacity:0;transform:translate(-50%,-50%) scale(.6);transition:opacity .2s,transform .3s cubic-bezier(.2,.7,.2,1)}
+.loupe.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.art-main.lensing{cursor:none}
+.loupe-hint{margin:0;color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+  .hero.has-bg .hero-bg img,.hero h1 > span,.hero h1 > em,.art-main img,.art-main canvas{animation:none!important}
+}
