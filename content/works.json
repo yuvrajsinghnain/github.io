@@ -124,8 +124,9 @@
     "price": "INR 25000",
     "status": "available",
     "featured_position": 4,
-    "image": "/images/Modern Study with Framed Portrait.png",
+    "image": "/images/wall_mockup_1.jpg",
     "gallery": [
+      "/images/Modern Study with Framed Portrait-1.png",
       "/images/20261026_1305420.jpg"
     ],
     "details": "Sometimes, freedom begins when we break through the boundaries within us.",
