@@ -173,3 +173,9 @@ content:
         label: About page, featured or shared by (names)
         type: string
         list: true
+      - name: site_url
+        label: Website address (change this when you buy your own domain, e.g. https://yuvrajsinghnain.com)
+        type: string
+      - name: google_verification
+        label: Google Search Console verification code (paste the code or the whole meta tag)
+        type: string
