@@ -278,8 +278,23 @@ def build():
     def read(name):
         return BeautifulSoup((ROOT / name).read_text(encoding='utf-8'), 'html.parser')
 
+    # Give the design files a version tag that changes whenever they change,
+    # so visitors' browsers fetch new versions straight away instead of using an old saved copy.
+    import hashlib
+    ver = {}
+    for f in ('assets/style.css', 'assets/site.js'):
+        try:
+            ver[f] = hashlib.md5((ROOT / f).read_bytes()).hexdigest()[:10]
+        except OSError:
+            pass
+
     def write(name, soup):
         soup.html['data-static'] = '1'
+        for tag, attr in (('link', 'href'), ('script', 'src')):
+            for el in soup.find_all(tag):
+                v = el.get(attr, '')
+                if v in ver:
+                    el[attr] = f'{v}?v={ver[v]}'
         (OUT / name).write_text(str(soup), encoding='utf-8')
 
     # ---- home
