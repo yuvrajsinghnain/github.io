@@ -251,3 +251,25 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(-
   .hero-bg::after{background:linear-gradient(180deg, rgba(20,20,19,.55) 0%, rgba(20,20,19,.82) 55%, rgba(20,20,19,.95) 100%)}
   .hero.has-bg{padding-block:var(--s5)}
 }
+
+/* phones: Selected works shows 4 pieces (2 thread + 2 pencil) */
+@media (max-width:720px){ #collection .grid .work.m-hide{display:none} }
+
+/* phone polish: menu fits and is easy to tap, compact achievements, tighter section spacing */
+@media (max-width:820px){
+  .subnav .wrap{justify-content:space-between;gap:var(--s1);padding-block:0;overflow:visible}
+  .subnav a{display:inline-block;padding-block:.8rem;font-size:.66rem;letter-spacing:.12em}
+  .mark{display:inline-block;padding-block:.7rem}
+}
+@media (max-width:760px){
+  .honours .wrap{grid-template-columns:repeat(var(--cols,3),minmax(0,1fr))}
+  .honour{border-top:0;border-left:1px solid var(--line);padding-inline:.8rem;padding-block:var(--s3)}
+  .honour:first-child{border-left:0;padding-left:0}
+  .honour .n{font-size:clamp(1.8rem,8vw,2.4rem)}
+  .honour .n.word{font-size:clamp(1.3rem,5.5vw,1.7rem)}
+  .honour p{font-size:.78rem;line-height:1.45}
+  .collection,.process,.journey,.featured{padding-block:var(--s5)}
+  .contact{padding-block:var(--s5) var(--s4)}
+  .textlink{display:inline-block;padding-top:.7rem}
+  .col-links{gap:var(--s1) var(--s3)}
+}

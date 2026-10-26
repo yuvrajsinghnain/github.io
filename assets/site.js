@@ -282,7 +282,14 @@
       .filter(w => pos(w) !== null || w.featured === true || w.featured === 'true')
       .map((w, i) => ({w, k: pos(w) ?? 1e6 + i}))
       .sort((a, b) => a.k - b.k).map(x => x.w);
-    fillGrid(grid, picked.length ? picked : works.slice(0, 8));
+    const shown = picked.length ? picked : works.slice(0, 8);
+    fillGrid(grid, shown);
+    // Phones show 4: the first 2 thread portraits and first 2 microsculptures (in your order),
+    // topped up from the rest if one type has fewer than 2.
+    const keep = new Set(), per = {thread:0, pencil:0};
+    shown.forEach((w, i) => { if (per[w.category] < 2){ per[w.category]++; keep.add(i); } });
+    shown.forEach((w, i) => { if (keep.size < 4) keep.add(i); });
+    [...grid.children].forEach((el, i) => el.classList.toggle('m-hide', !keep.has(i)));
     $('#empty-note').hidden = !isExample;
   }
 
@@ -316,7 +323,7 @@
 
       root.innerHTML = '';
       const sec = document.createElement('section');
-      sec.className = 'art' + (w.category === 'thread' ? ' ivory' : '');
+      sec.className = 'art' + (w.category === 'pencil' ? ' ivory' : '');
       sec.innerHTML = `
         <div class="wrap">
           <p class="eyebrow art-crumbs"><a href="./">Home</a> <b>/</b> <a href="${c.page}">${c.plural}</a></p>
