@@ -4,6 +4,7 @@
     "category": "pencil",
     "price": " INR 25000",
     "status": "sold",
+    "featured_position": 8,
     "image": "/images/1630150190570.jpg",
     "details": "5mm, 2024",
     "medium": "Graphite ",
@@ -68,7 +69,6 @@
     "category": "pencil",
     "price": "INR 12000",
     "status": "sold",
-    "featured_position": 8,
     "image": "/images/20210902_093153.jpg",
     "gallery": [
       "/images/20210902_093156.jpg"
