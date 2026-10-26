@@ -83,6 +83,9 @@ content:
       - name: intro
         label: Introduction paragraph
         type: text
+      - name: hero_image
+        label: Home page banner photo behind the main heading (wide, landscape)
+        type: image
       - name: hero_video
         label: Home page top video (MP4, loops, no sound)
         type: file
